@@ -43,7 +43,12 @@ double RealVariance(double sumForVariance,int n)
 	variance=sumForVariance/n;
 	return variance;
 }
-
+double RealMean(double sumForMean,int n)
+{
+	double mean;
+	mean=sumForMean/n;
+	return mean;
+}
 double RealStdDeviation(double variance)
 {
 	double stdDeviation;

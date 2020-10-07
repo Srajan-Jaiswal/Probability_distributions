@@ -35,12 +35,7 @@ void main()
     free(N);
 }
 
-double RealMean(double sumForMean,int n)
-{
-	double mean;
-	mean=sumForMean/n;
-	return mean;
-}
+
 
 double RealVariance(double sumForVariance,int n)
 {

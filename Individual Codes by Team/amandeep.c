@@ -8,7 +8,7 @@ double RealMean(double sum,int n);
 double RealVariance(double sumForVariance,int n);
 double RealStdDeviation(double variance);
 
-void main()
+int main()
 {
     int i,n;
 	double *N,mean,variance,stdDeviation,sumForMean=0,sumForVariance = 0;
@@ -19,10 +19,10 @@ void main()
     for (i = 0; i < n; i++)
     {
         scanf("%lf", &N[i]);
-        sumForMean+= N[i]; //Sum of entered elements for calculating mean later
+        sumForMean+= N[i];                //Sum of entered elements for calculating mean later
     }
    	mean = RealMean(sumForMean,n);
-    for (i = 0; i < n; i++) /* Separate loop for computing variance  and standard deviation  */
+    for (i = 0; i < n; i++)                        /* Separate loop for computing variance  and standard deviation  */
     {
         sumForVariance+= pow((N[i] - mean), 2);
     }

@@ -1,14 +1,3 @@
-/*
-This program does the following tasks combined :-
-
-1) Taking data from a file in the form of two strings and converting them to floating point values.
-   Data could be an integer,decimal or fractional value.
-2) Finding median and mode of N integers.
-3) Input real numbers and find the mean, variance and standard deviation.
-4) Moment generating function for discrete data.
-5) Binomial Distribution
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -54,23 +43,8 @@ enum numberType
 double checkAndReturn(char *string);
 static int funcCallCounter = 0;
 
-enum openingPage
-{
-	aman,
-	amandeep,
-	srajan,
-	raghavendra,
-	mgf_data
-} mainChoice;
-
-enum momentChoice
-{
-	directMGF,
-	extractData
-} dataChoice;
-
 /* MAIN STARTS HERE */
-void main()
+int main()
 {
 	system("cls");
 	system("COLOR FC");
@@ -87,7 +61,7 @@ void main()
 	scanf("%d", &mainchoice);
 	switch (mainchoice)
 	{
-	case 1: /* Aman Saraogi*/
+	case 1: /* Aman Saraogi (Median and Mode)*/
 	{
 		system("cls");
 		system("COLOR FC");
@@ -166,7 +140,9 @@ void main()
 		}
 	}
 	break;
-	case 2: /* Mean,Standard Deviation, Variance (Amandeep Singh) */
+
+
+	case 2: /*Mean,Standard Deviation, Variance,Poission,Binomial(Amandeep Singh) */
 	{
 		system("cls");
 		system("COLOR FC");
@@ -174,14 +150,15 @@ void main()
 		double *N, mean, variance, stdDeviation, sumForMean = 0, sumForVariance = 0;
 		printf("Enter the number of trails N: "); //N data points
 		scanf("%d", &n);
-		N = (double *)malloc(n * sizeof(double));
+	     N = (double *)malloc(n * sizeof(double));
 		printf("Enter the data points:\n");
 		for (i = 0; i < n; i++)
 		{
 			scanf("%lf", &N[i]);
 			sumForMean += N[i]; //Sum of entered elements for calculating mean later
 		}
-		mean = RealMean(sumForMean, n);
+		mean = RealMean(sumForMean, n); // we find mean here
+
 		for (i = 0; i < n; i++) /* Separate loop for computing variance  and standard deviation  */
 		{
 			sumForVariance += pow((N[i] - mean), 2); // calculating variance
@@ -210,7 +187,7 @@ void main()
 		q = 1 - p;
 		printf("Probability of failure q: %.2lf \n\n", q);
 		printf("Menu: \n");
-		printf("1) Probablility Mass Function for a variable \n2) Other Statistical Parameters \n   a) Mean \n   b) Mode \n   c) Variance \n   d) Skewness \n   e) Kurtosis \n   f) Fisher Information \n\n");
+		printf("1) Probablility Mass Function for a variable \n2) Other Statistical Parameters \n   a) Mean \n   b) Mode \n   c) Variance \n   d) Skewness \n   e) Kurtosis \n\n");
 		do
 		{
 			if (ch1 == 'y' || ch1 == 'Y')
@@ -221,7 +198,7 @@ void main()
 				printf("Probability of success p: %.2lf \n", p);
 				printf("Probability of failure q: %.2lf \n\n", q);
 				printf("Menu: \n");
-				printf("1) Probablility Mass Function for a variable \n2) Other Statistical Parameters \n   a) Mean \n   b) Mode \n   c) Variance \n   d) Skewness \n   e) Kurtosis \n   f) Fisher Information \n\n");
+				printf("1) Probablility Mass Function for a variable \n2) Other Statistical Parameters \n   a) Mean \n   b) Mode \n   c) Variance \n   d) Skewness \n   e) Kurtosis \n\n");
 			}
 			printf("Choice: ");
 			fflush(stdin);
@@ -235,18 +212,18 @@ void main()
 				printf("P[%d] = %.2lf\n", x, P[x]);
 				break;
 			case 2:
-				mean = n * p;
-				mode = (n + 1) * p;
-				variance = n * p * q;
-				skewness = (1 - (2 * p)) / sqrt(n * p * q);
-				kurtosis = (1 - (6 * p * q)) / (n * p * q);
+				mean = n * p;   // mean 
+				mode = (n + 1) * p; //mode 
+				variance = n * p * q; //variance
+				skewness = (1 - (2 * p)) / sqrt(n * p * q);  //skewness
+				kurtosis = (1 - (6 * p * q)) / (n * p * q); // kurtosis
 				Finfo = n / (p * q);
 				printf("\na) Mean = %.2lf", mean);
 				printf("\nb) Mode = %.2lf", mode);
 				printf("\nc) Variance = %.2lf", variance);
 				printf("\nd) Skewness = %.2lf", skewness);
 				printf("\ne) Kurtosis = %.2lf", kurtosis);
-				printf("\nf) Fisher Information = %.2lf\n", Finfo);
+			    //printf("\nf) Fisher Information = %.2lf\n", Finfo);
 				break;
 			default:
 				printf("\nWrong choice!");
@@ -272,18 +249,17 @@ void main()
 		P = (double *)malloc(n * sizeof(double)); /* Space for probabilities of random variables */
 		printf("Enter the probability of success:");
 		scanf("%f", &p);
-		mean = PsnMean(n, p);
-		variance = PsnVariance(mean);
-		moment3 = PsnMoment3(mean);
-		moment4 = PsnMoment4(mean);
-		skewness = PsnSkewness(mean);
-		kurtosis = PsnKurtosis(mean);
+
+		mean = PsnMean(n, p); ///mean
+		variance = PsnVariance(mean); //variance
+		skewness = PsnSkewness(mean); //skewness
+		kurtosis = PsnKurtosis(mean); //kurtosis
 		printf("Enter the random variable:");
 		scanf("%d", &x);
 		P[x] = PsnProbability(mean, x); // poisson distribution
 		printf("\nP[%d] = %f", x, P[x]);
-		printf("\nMean = %.4lf \nVarience = %.4lf \nU3 = %.4lf \nU4 = %.4lf \nSkewness = %.4lf \nKurtosis = %.4lf \n", mean, variance, moment3, moment4, skewness, kurtosis);
-		//free(P);
+		printf("\nMean = %.4lf \nVarience = %.4lf  \nSkewness = %.4lf \nKurtosis = %.4lf \n", mean, variance, skewness, kurtosis);
+		free(P);
 	}
 	/*End of Amandeep*/
 	break;
@@ -335,7 +311,8 @@ void main()
 			{
 				SumXF += data[0][j] * data[1][j]; /* equivalent to X[i]*F[i] */
 			}
-			mean = dataMean(SumXF, SumF);
+			mean = dataMean(SumXF, SumF); // mean calculated by the mgf
+			
 			printf("Menu : \n\n1) First 4 Central Moments with other parameters \n2) First 4 Raw Moments about a point \n\nChoice: ");
 			scanf("%d", &choice);
 			switch (choice)
@@ -379,7 +356,7 @@ void main()
 
 				skewness = dataSkewness(centralM[2], centralM[1]);
 				printf("Skewness = %.4lf ", skewness);
-				checkSkewness(skewness);
+				checkSkewness(skewness); // this function is  used for checking the curve
 
 				kurtosis = dataKurtosis(centralM[3], centralM[1]);
 				printf("Kurtosis = %.4lf ", kurtosis);
@@ -396,7 +373,7 @@ void main()
 			}
 		}
 		break;
-		case 2: /* Data Extraction(Raghu) */
+		case 2: /* Data Extraction(Srajan Jaiswal) */
 		{
 			system("cls");
 			system("COLOR FC");
@@ -480,7 +457,7 @@ void main()
 
 				printf("\nMean = %lf \n", mean);
 
-				variance = dataVariance(centralM[1]);
+				variance = dataVariance(centralM[1]); 
 				printf("Variance = %.4lf \n", variance);
 
 				skewness = dataSkewness(centralM[2], centralM[1]);
@@ -507,6 +484,8 @@ void main()
 		/* End of Data Extraction(Srajan Jaiswal)*/
 	}
 	break;
+
+
 	case 6: /* Sampling (Raghavendra Singh) */
 	{
 		int n, ch, x, N[100], sum = 0, B[100], sum1 = 0, v, i;
@@ -544,9 +523,9 @@ void main()
 				printf("Probability of success p: %.2lf \n", p);
 				printf("Probability of failure q: %.2lf \n\n", q);
 				printf("Menu: \n");
-				printf("1) Test of Significance for large Samples(z)\n");
-				printf("2) Test of Significance for Means of two large Samples\n");
-				printf("3) Test of Significance of a Sample Mean\n");
+				printf("1) Test of Significance for large Samples(z)\n");  // FISHER z TEST
+				printf("2) Test of Significance for Means of two large Samples\n"); // CHI SQUARE METHOD
+				printf("3) Test of Significance of a Sample Mean\n"); // student-t test
 			}
 			printf("\nChoice: ");
 			fflush(stdin);
@@ -568,15 +547,15 @@ void main()
 			case 2:
 				printf("Enter the number of trials for second sample N2: ");
 				scanf("%lf", &n2);
-				e = (sqrt((n + n2) * p * q)) * (sqrt((1 / n) + (1 / n2)));
-				z = (n * p) - (n2 * p) / e;
+				e = (sqrt((n + n2) * p * q)) * (sqrt((1 / n) + (1 / n2))); // expected value
+				z = (n * p) - (n2 * p) / e; // FORMULA FOR CALCULATING Z
 				printf("\nStandard normal variate = %.5lf\n", z);
 				if (z > 1.96 && z < 3)
 					printf("\n\nThe difference is significant at 5%% level of significance.");
 				if (z > 3)
 					printf("\n\nIt is Highly probable that either the samples have not been drawn from the\n same population or the sampling is not simple.");
 				d = (n * p) - (n2 * p);
-				e1 = sqrt(((n * p * q) / n) + ((n2 * p * q) / n2));
+				e1 = sqrt(((n * p * q) / n) + ((n2 * p * q) / n2)); // CALCULATING new expected value
 				if (d > (10 * e1))
 					printf("\n\nIt is Highly significant.");
 				break;
@@ -626,9 +605,10 @@ void main()
 }
 /* END OF MAIN */
 
-/* FUNCTIONS */
+/* FUNCTIONS USED IN THE ABOVE METRICS CALCULATED */
 
 /* Amandeep  funcs */
+
 double RealMean(double sumForMean, int n)
 {
 	double mean;
